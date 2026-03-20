@@ -20,6 +20,10 @@ The virtual machine is deployed without a public IP, ensuring it is not directly
 The storage account is accessed via a private endpoint. DNS resolves the service to a private IP within the VNet, ensuring traffic does not traverse the public internet.
 ![Private Endpoint](docs/private-endpoint.png)
 
+## Controlled Egress via Azure Firewall
+The application subnet uses a route table that sends all outbound traffic `0.0.0.0/0` to the Azure Firewall, enabling centralized inspection and control.
+![Firewall Route](docs/firewall-route.png)
+
 ## Key Components
 
 ### Networking
