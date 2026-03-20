@@ -1,7 +1,7 @@
 # Azure Secure Landing Zone (Terraform)
 
 ## Overview
-This project demonstrates the design and implementation of an enterprise-grade Azure landing zone using Terraform. The architecture follows best practices for governance, security, and scalability.
+This project demonstrates the design and implementation of an enterprise-grade Azure landing zone using Terraform. The architecture follows best practices for governance, security, and scalability, with a strong focus on private networking and zero public exposure.
 
 ## Architecture
 - Hub-spoke network topology
@@ -9,6 +9,7 @@ This project demonstrates the design and implementation of an enterprise-grade A
 - Private endpoints for Storage and Key Vault
 - No public access to workloads
 - Bastion-based secure VM access
+- Multi-subscription design (platform + production)
 
 ## Key Components
 
@@ -17,28 +18,44 @@ This project demonstrates the design and implementation of an enterprise-grade A
 - Subnets:
   - snet-app (10.1.1.0/24)
   - snet-private-endpoints (10.1.2.0/24)
-- Route Table: rt-prod-app (forced tunneling via firewall)
+- Hub VNet (vnet-hub) with shared services
+- VNet peering between hub and spoke
+- Route Table: rt-prod-app (forced tunneling via Azure Firewall)
 - Network Security Group: nsg-prod-app
 
 ### Security
-- Azure Bastion for secure access
+- Azure Firewall (centralized egress control)
+- Azure Bastion (secure administrative access)
 - Private Endpoints:
   - Storage (blob)
   - Key Vault
-- Public network access disabled
+- Public network access disabled for critical services
 
 ### Monitoring
 - Log Analytics Workspace (law-platform)
+- Azure Monitor integration
 - Microsoft Defender for Cloud enabled
 
 ### Governance
 - Azure Policies:
-  - Block public IPs
+  - Block public IP creation
   - Require environment tagging
-- RBAC:
+- Role-Based Access Control (RBAC):
   - Dev-Team assigned Contributor role on production subscription
 
 ## Terraform Structure
+azure-secure-landing-zone-terraform
+├── environments
+│   └── production
+│       ├── main.tf            # Core infrastructure (networking, security, endpoints)
+│       ├── provider.tf        # Azure providers (multi-subscription setup)
+│       ├── variables.tf       # Input variables
+│       ├── outputs.tf         # Outputs
+│       └── terraform.tfvars   # Environment-specific values
+├── modules                    # (future reusable modules)
+├── docs                       # Architecture diagrams and documentation
+└── README.md                  # Project overview
+
 
 
 ## Outcomes
@@ -49,8 +66,7 @@ This project demonstrates the design and implementation of an enterprise-grade A
 - Production-ready cloud foundation aligned with enterprise best practices
 
 ## Future Improvements
-- Extend Terraform to include Azure Firewall and Bastion
-- Implement remote backend using Azure Storage for state management
-- Refactor into reusable Terraform modules
-- Add CI/CD pipeline for automated deployments
-
+- Implement remote backend using Azure Storage for Terraform state
+- Refactor configuration into reusable Terraform modules
+- Add CI/CD pipeline for automated Terraform plan and apply workflows
+- Extend the landing zone to include additional environments (dev/test)

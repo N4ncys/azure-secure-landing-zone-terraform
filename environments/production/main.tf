@@ -149,3 +149,52 @@ resource "azurerm_private_endpoint" "pe_kv" {
   }
 }
 
+
+
+data "azurerm_resource_group" "rg_hub" {
+  provider = azurerm.platform
+  name     = "rg-hub-network"
+}
+
+data "azurerm_virtual_network" "vnet_hub" {
+  provider            = azurerm.platform
+  name                = "vnet-hub"
+  resource_group_name = data.azurerm_resource_group.rg_hub.name
+}
+
+
+
+
+resource "azurerm_bastion_host" "bastion_hub" {
+  provider            = azurerm.platform
+  name                = "bastion-hub"
+  location            = data.azurerm_resource_group.rg_hub.location
+  resource_group_name = data.azurerm_resource_group.rg_hub.name
+
+  ip_configuration {
+    name                 = "bastion-ip-config"
+    subnet_id            = "${data.azurerm_virtual_network.vnet_hub.id}/subnets/AzureBastionSubnet"
+    public_ip_address_id = "/subscriptions/1600c19f-74f6-4dc2-b68d-7533649ec025/resourceGroups/rg-hub-network/providers/Microsoft.Network/publicIPAddresses/pip-bastion-hub"
+  }
+}
+
+
+
+resource "azurerm_firewall" "fw_hub" {
+  provider            = azurerm.platform
+  name                = "fw-hub"
+  location            = data.azurerm_resource_group.rg_hub.location
+  resource_group_name = data.azurerm_resource_group.rg_hub.name
+  sku_name            = "AZFW_VNet"
+  sku_tier            = "Standard"
+
+  firewall_policy_id = "/subscriptions/1600c19f-74f6-4dc2-b68d-7533649ec025/resourceGroups/rg-hub-network/providers/Microsoft.Network/firewallPolicies/fp-hub"
+
+  ip_configuration {
+    name                 = "ipconfig1"
+    subnet_id            = "${data.azurerm_virtual_network.vnet_hub.id}/subnets/AzureFirewallSubnet"
+    public_ip_address_id = "/subscriptions/1600c19f-74f6-4dc2-b68d-7533649ec025/resourceGroups/rg-hub-network/providers/Microsoft.Network/publicIPAddresses/pip-fw-hub"
+  }
+}
+
+
