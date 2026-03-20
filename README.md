@@ -76,7 +76,7 @@ azure-secure-landing-zone-terraform
 ├── docs                       # Architecture diagrams and screenshots
 └── README.md                  # Project documentation
 
-
+'''text
 
 ## Outcomes
 - Infrastructure fully managed using Terraform (Infrastructure as Code)
