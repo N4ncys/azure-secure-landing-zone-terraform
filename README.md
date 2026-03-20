@@ -12,6 +12,10 @@ This project demonstrates the design and implementation of an enterprise-grade A
 - Bastion-based secure VM access
 - Multi-subscription design (platform + production)
 
+## Secure Compute
+The virtual machine is deployed without a public IP, ensuring it is not directly accessible from the internet.
+![VM No Public IP](docs/vm-no-public-ip.png)
+
 ## Key Components
 
 ### Networking
