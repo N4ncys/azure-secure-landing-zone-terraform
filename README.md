@@ -16,6 +16,10 @@ This project demonstrates the design and implementation of an enterprise-grade A
 The virtual machine is deployed without a public IP, ensuring it is not directly accessible from the internet.
 ![VM No Public IP](docs/vm-no-public-ip.png)
 
+## Private Endpoint Validation
+The storage account is accessed via a private endpoint. DNS resolves the service to a private IP within the VNet, ensuring traffic does not traverse the public internet.
+![Private Endpoint](docs/private-endpoint.png)
+
 ## Key Components
 
 ### Networking
