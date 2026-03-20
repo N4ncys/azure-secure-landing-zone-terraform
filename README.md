@@ -4,6 +4,7 @@
 This project demonstrates the design and implementation of an enterprise-grade Azure landing zone using Terraform. The architecture follows best practices for governance, security, and scalability, with a strong focus on private networking and zero public exposure.
 
 ## Architecture
+![Architecture](docs/architecture.png)
 - Hub-spoke network topology
 - Centralized security with Azure Firewall
 - Private endpoints for Storage and Key Vault
