@@ -24,6 +24,11 @@ The storage account is accessed via a private endpoint. DNS resolves the service
 The application subnet uses a route table that sends all outbound traffic `0.0.0.0/0` to the Azure Firewall, enabling centralized inspection and control.
 ![Firewall Route](docs/firewall-route.png)
 
+## Infrastructure as Code
+All infrastructure is provisioned and managed using Terraform, ensuring consistency and eliminating configuration drift.
+![Terraform](docs/terraform.png)
+
+
 ## Key Components
 
 ### Networking
