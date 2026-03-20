@@ -62,17 +62,19 @@ All infrastructure is provisioned and managed using Terraform, ensuring consiste
   - Dev-Team assigned Contributor role on production subscription
 
 ## Terraform Structure
+
+```text
 azure-secure-landing-zone-terraform
 ├── environments
 │   └── production
 │       ├── main.tf            # Core infrastructure (networking, security, endpoints)
 │       ├── provider.tf        # Azure providers (multi-subscription setup)
 │       ├── variables.tf       # Input variables
-│       ├── outputs.tf         # Outputs
+│       ├── outputs.tf         # Terraform outputs
 │       └── terraform.tfvars   # Environment-specific values
-├── modules                    # (future reusable modules)
-├── docs                       # Architecture diagrams and documentation
-└── README.md                  # Project overview
+├── modules                    # (future reusable Terraform modules)
+├── docs                       # Architecture diagrams and screenshots
+└── README.md                  # Project documentation
 
 
 
